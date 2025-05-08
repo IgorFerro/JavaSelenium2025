@@ -1,0 +1,14 @@
+automationteststore/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   └── resources/
+│   └── test/
+│       ├── java/
+│       │   └── com/
+│       │       └── automationteststore/
+│       │           ├── pages/
+│       │           ├── tests/
+│       │           └── utils/
+│       └── resources/
+└── pom.xml 
