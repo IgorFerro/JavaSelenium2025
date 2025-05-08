@@ -45,30 +45,34 @@ public class SelectMenuPageObjects {
     }
 
     public void addProductsToCart() throws InterruptedException {
-        // Wait for products to be visible
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".productcart")));
+        // Click page title
+        WebElement title = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//div[@id='maincontainer']/div/div/div/h1/span")));
+        title.click();
         
-        // Find all add to cart buttons
-        List<WebElement> addToCartButtons = driver.findElements(By.cssSelector(".productcart a[title='Add to Cart']"));
-        System.out.println("Found " + addToCartButtons.size() + " products to add to cart");
-        
-        // Add products to cart
-        for (int i = 0; i < addToCartButtons.size(); i++) {
-            try {
-                // Scroll to element
-                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", addToCartButtons.get(i));
-                Thread.sleep(1000); // Wait for scroll
-                
-                // Click using JavaScript
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addToCartButtons.get(i));
-                System.out.println("Added product " + (i + 1) + " to cart");
-                
-                // Wait for cart update
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                System.out.println("Could not add product " + (i + 1) + " to cart: " + e.getMessage());
-            }
+        // Add first 4 products
+        for (int i = 1; i <= 4; i++) {
+            WebElement addToCartButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@id='maincontainer']/div/div/div/div/div[2]/div[" + i + "]/div[2]/div[3]/a/i")));
+            addToCartButton.click();
+            Thread.sleep(1000);
         }
+        
+        // Move to the last added product
+        WebElement lastProduct = driver.findElement(
+            By.xpath("//div[@id='maincontainer']/div/div/div/div/div[2]/div[3]/div[2]/div[3]/a/i"));
+        actions.moveToElement(lastProduct).perform();
+        
+        // Move to body
+        WebElement body = driver.findElement(By.tagName("body"));
+        actions.moveToElement(body, 0, 0).perform();
+        
+        // Add the last product
+        WebElement lastButton = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//div[@id='maincontainer']/div/div/div/div/div[2]/div[4]/div[2]/div[3]/a/i")));
+        lastButton.click();
+        
+        Thread.sleep(2000);
     }
 
     public void goToCart() {
