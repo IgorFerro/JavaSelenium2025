@@ -29,6 +29,7 @@ mvn test -Dtest=SelectMenuFluentTst
 ```bash
 mvn test -Dtest=SelectMenuPageObjectsTst#testCompleteShoppingFlow
 mvn test -Dtest=SelectMenuPageFactoryTst#testCompleteShoppingFlow
+mvn test -Dtest=SelectMenuScreenplayTst#testCompleteShoppingFlow
 ```
 
 2. Run Men Skincare Navigation Test:
@@ -64,6 +65,18 @@ mvn test -Dconfig=qa
 mvn test -Dconfig=staging
 ```
 
+### Run Screenplay Tests
+
+1. Run Complete Shopping Flow Test:
+```bash
+mvn test -Dtest=SelectMenuScreenplayTst#testCompleteShoppingFlow
+```
+
+2. Run All Screenplay Tests:
+```bash
+mvn test -Dtest=SelectMenuScreenplayTst
+```
+
 ## Test Reports
 After test execution, reports can be found in:
 ```bash
@@ -75,3 +88,27 @@ target/surefire-reports/
 mvn surefire-report:report
 ```
 Then open: `target/site/surefire-report.html` 
+
+Key features of the Screenplay pattern implementation:
+1. Uses Serenity BDD framework
+2. Defines targets (locators) as static constants
+3. Creates tasks for each action
+4. Uses Actor to perform actions
+5. More readable and maintainable test flow
+6. Better separation of concerns
+7. Natural language-like test structure
+
+Note: You'll need to add Serenity BDD dependencies to your pom.xml:
+
+```xml
+<dependency>
+    <groupId>net.serenity-bdd</groupId>
+    <artifactId>serenity-junit5</artifactId>
+    <version>3.6.15</version>
+</dependency>
+<dependency>
+    <groupId>net.serenity-bdd</groupId>
+    <artifactId>serenity-screenplay</artifactId>
+    <version>3.6.15</version>
+</dependency>
+``` 
