@@ -1,0 +1,758 @@
+<html lang='en'><head><link href='prism/prism.css' rel='stylesheet' /></head><body><script src='prism/prism.js'></script><body><div><pre><code class='language-html'>&lt;html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en"&gt;<br/>
+ &lt;head&gt;<br/>
+  &lt;meta charset="UTF-8"&gt; &lt;!--[if IE]&gt;<br/>
+	&lt;meta http-equiv="x-ua-compatible" content="IE=Edge" /&gt;<br/>
+&lt;![endif]--&gt; <br/>
+  &lt;title&gt;Books&lt;/title&gt; <br/>
+  &lt;meta name="generator" content="AbanteCart v1.2.15 - Open Source eCommerce solution"&gt; <br/>
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt; <br/>
+  &lt;base href="https://automationteststore.com/"&gt; <br/>
+  &lt;link href="resources/image/18/7a/8.png" type="image/png" rel="icon"&gt; <br/>
+  &lt;link href="storefront/view/default/image/apple-touch-icon.png" rel="apple-touch-icon"&gt; <br/>
+  &lt;link href="storefront/view/default/image/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76"&gt; <br/>
+  &lt;link href="storefront/view/default/image/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"&gt; <br/>
+  &lt;link href="storefront/view/default/image/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"&gt; <br/>
+  &lt;link href="storefront/view/default/image/icon-192x192.png" rel="apple-touch-icon" sizes="192x192"&gt; <br/>
+  &lt;link href="storefront/view/default/stylesheet/bootstrap.min.css" rel="stylesheet" type="text/css"&gt; <br/>
+  &lt;link href="storefront/view/default/stylesheet/flexslider.css" rel="stylesheet" type="text/css"&gt; <br/>
+  &lt;link href="storefront/view/default/stylesheet/onebyone.css" rel="stylesheet" type="text/css"&gt; <br/>
+  &lt;link href="storefront/view/default/stylesheet/font-awesome.min.css" rel="stylesheet" type="text/css"&gt; <br/>
+  &lt;link href="storefront/view/default/stylesheet/style.css" rel="stylesheet" type="text/css"&gt; <br/>
+  &lt;style&gt;<br/>
+.visible-print  { display: inherit !important; }<br/>
+.hidden-print   { display: none !important; }<br/>
+<br/>
+a[href]:after {<br/>
+	content: none !important;<br/>
+}<br/>
+&lt;/style&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery-1.12.4.min.js"&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery-migrate-1.2.1.min.js"&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript"&gt;<br/>
+	var baseUrl = 'https://automationteststore.com/';<br/>
+<br/>
+	function update_cart(product_id){<br/>
+<br/>
+		var senddata = {},<br/>
+			result = false;<br/>
+		if(product_id){<br/>
+			senddata['product_id'] = product_id;<br/>
+		}<br/>
+		$.ajax({<br/>
+                url:'https://automationteststore.com/index.php?rt=r/product/product/addToCart',<br/>
+                type:'GET',<br/>
+                dataType:'json',<br/>
+                data: senddata,<br/>
+				async: false,<br/>
+                success:function (data) {<br/>
+					//top cart<br/>
+					$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);<br/>
+					$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);<br/>
+					if($('#top_cart_product_list')){<br/>
+						$('#top_cart_product_list').html(data.cart_details);<br/>
+					};<br/>
+	                result = true;<br/>
+                }<br/>
+        });<br/>
+		return result;<br/>
+	}<br/>
+<br/>
+	//event for adding product to cart by ajax<br/>
+	$(document).on('click', 'a.productcart', function() {<br/>
+        var item = $(this);<br/>
+        //check if href provided for product details access<br/>
+        if ( item.attr('href') && item.attr('href') != '#') {<br/>
+        	return true;<br/>
+        }<br/>
+        if(item.attr('data-id')){<br/>
+	        if( update_cart(item.attr('data-id')) == true ) {<br/>
+		        var alert_msg = '&lt;div class="quick_basket"&gt;'<br/>
+				        + '&lt;a href="https://automationteststore.com/index.php?rt=checkout/cart" title="Added to cart"&gt;'<br/>
+				        + '&lt;i class="fa fa-shopping-cart fa-fw"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;';<br/>
+				item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);<br/>
+	        }<br/>
+        }<br/>
+    return false;<br/>
+});<br/>
+$(window).on('load', function(){<br/>
+	update_cart();<br/>
+});<br/>
+$(document).on('click','a.call_to_order',function(){<br/>
+	goTo('https://automationteststore.com/index.php?rt=content/contact');<br/>
+	return false;<br/>
+});<br/>
+<br/>
+function search_submit () {<br/>
+    var url = 'https://automationteststore.com/index.php?rt=product/search';<br/>
+	var filter_keyword = $('#filter_keyword').val();<br/>
+	if (filter_keyword) {<br/>
+	    url += '&keyword=' + encodeURIComponent(filter_keyword);<br/>
+	}<br/>
+	var filter_category_id = $('#filter_category_id').attr('value');<br/>
+	if (filter_category_id) {<br/>
+	    url += '&category_id=' + filter_category_id;<br/>
+	}<br/>
+	location = url;<br/>
+	return false;<br/>
+}<br/>
+&lt;/script&gt;<br/>
+ &lt;/head&gt; <br/>
+ &lt;body class="product-category"&gt; <br/>
+  &lt;div class="container-fixed" style="max-width: 100%"&gt; <br/>
+   &lt;header&gt; <br/>
+    &lt;div class="headerstrip navbar navbar-inverse" role="navigation"&gt; <br/>
+     &lt;div class="container-fluid"&gt; <br/>
+      &lt;div class="navbar-header header-logo"&gt; &lt;button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse"&gt; &lt;span class="sr-only"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;/button&gt; &lt;a class="logo" href="https://automationteststore.com/"&gt; &lt;img src="resources/image/18/7a/8.png" width="" height="" title="Automation Test Store" alt="Automation Test Store"&gt; &lt;/a&gt; <br/>
+      &lt;/div&gt; <br/>
+      &lt;div class="navbar-collapse collapse"&gt; <br/>
+       &lt;div class="navbar-right headerstrip_blocks"&gt; <br/>
+        &lt;div class="block_1"&gt;&lt;/div&gt; <br/>
+        &lt;div class="block_2"&gt;<br/>
+         &lt;div id="customernav" class="navbar"&gt; <br/>
+          &lt;ul class="nav navbar-nav main_menu" id="customer_menu_top"&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=account/login"&gt;Login or register&lt;/a&gt;&lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt;<br/>
+        &lt;/div&gt; <br/>
+        &lt;div class="block_3"&gt;<br/>
+         &lt;div class="topnavbar navbar" id="topnav"&gt; &lt;span class="sr-only"&gt;Main Menu&lt;/span&gt; <br/>
+          &lt;ul id="main_menu_top" class="nav navbar-nav main_menu"&gt; <br/>
+           &lt;li data-id="menu_specials" class="dropdown "&gt;&lt;a class="top menu_specials" href="https://automationteststore.com/index.php?rt=product/special"&gt;&lt;i class="fa fa-tag"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Specials&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+           &lt;li data-id="menu_account" class="dropdown "&gt;&lt;a class="top menu_account" href="https://automationteststore.com/index.php?rt=account/account"&gt;&lt;i class="fa fa-user"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Account&lt;/span&gt;&lt;/a&gt; <br/>
+            &lt;ul class="sub_menu dropdown-menu"&gt; <br/>
+             &lt;li data-id="menu_login" class="dropdown "&gt;&lt;a class="sub menu_login" href="https://automationteststore.com/index.php?rt=account/login"&gt;&lt;i class="fa fa-user"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Login&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+             &lt;li data-id="menu_order" class="dropdown "&gt;&lt;a class="sub menu_order" href="https://automationteststore.com/index.php?rt=account/invoice"&gt;&lt;i class="fa fa-briefcase"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Check Your Order&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+            &lt;/ul&gt; &lt;/li&gt; <br/>
+           &lt;li data-id="menu_cart" class="dropdown "&gt;&lt;a class="top nobackground" href="https://automationteststore.com/index.php?rt=checkout/cart"&gt;&lt;i class="fa fa-shopping-cart"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Cart&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+           &lt;li data-id="menu_checkout" class="dropdown "&gt;&lt;a class="top menu_checkout" href="https://automationteststore.com/index.php?rt=checkout/shipping"&gt;&lt;i class="fa fa-money"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Checkout&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+          &lt;/ul&gt; &lt;select class="form-control"&gt;&lt;option selected value=""&gt;Main Menu&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/special"&gt;&nbsp;Specials&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/account"&gt;&nbsp;Account&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/login"&gt;&nbsp;Login&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/invoice"&gt;&nbsp;Check Your Order&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=checkout/cart"&gt;&nbsp;Cart&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=checkout/shipping"&gt;&nbsp;Checkout&lt;/option&gt;&lt;/select&gt;<br/>
+         &lt;/div&gt;<br/>
+        &lt;/div&gt; <br/>
+        &lt;div class="block_4"&gt;<br/>
+         &lt;form id="search_form" class="form-search top-search"&gt; <br/>
+          &lt;input type="hidden" name="filter_category_id" id="filter_category_id" value="0"&gt; <br/>
+          &lt;div class="btn-group search-bar"&gt; <br/>
+           &lt;input type="text" id="filter_keyword" name="filter_keyword" autocomplete="off" class="pull-left input-medium search-query dropdown-toggle" placeholder="Search Keywords" value="" data-toggle="dropdown"&gt; <br/>
+           &lt;div class="button-in-search" title="Go"&gt;<br/>
+            &lt;i class="fa fa-search"&gt;&lt;/i&gt;<br/>
+           &lt;/div&gt; <br/>
+           &lt;ul id="search-category" class="dropdown dropdown-menu col-md-2 noclose"&gt; <br/>
+            &lt;li class="active"&gt;&lt;a id="category_selected"&gt;All Categories&lt;/a&gt;&lt;/li&gt; <br/>
+            &lt;li class="divider"&gt;&lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_0"&gt;All Categories&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_68"&gt;Apparel &amp; accessories&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_36"&gt;Makeup&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_43"&gt;Skincare&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_49"&gt;Fragrance&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_58"&gt;Men&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_52"&gt;Hair Care&lt;/a&gt; &lt;/li&gt; <br/>
+            &lt;li class="search-category"&gt; &lt;a id="category_65"&gt;Books&lt;/a&gt; &lt;/li&gt; <br/>
+           &lt;/ul&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/form&gt;<br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+      &lt;/div&gt;&lt;!--/.navbar-collapse --&gt; <br/>
+     &lt;/div&gt; <br/>
+    &lt;/div&gt; <br/>
+    &lt;div class="container-fluid"&gt; <br/>
+     &lt;div class="col-md-12 headerdetails"&gt; &lt;!-- header blocks placeholder --&gt; <br/>
+      &lt;div class="block_5"&gt;&lt;/div&gt; <br/>
+      &lt;div class="block_6"&gt;<br/>
+       &lt;ul class="nav language pull-left"&gt; <br/>
+        &lt;li class="dropdown hover"&gt; &lt;a class="dropdown-toggle" data-toggle=""&gt;&lt;span&gt;&lt;span class="label label-orange font14"&gt;$&lt;/span&gt; US Dollar&lt;/span&gt;&lt;b class="caret"&gt;&lt;/b&gt;&lt;/a&gt; <br/>
+         &lt;ul class="dropdown-menu currency"&gt; <br/>
+          &lt;li&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65&amp;currency=EUR"&gt;€ Euro&lt;/a&gt; &lt;/li&gt; <br/>
+          &lt;li&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65&amp;currency=GBP"&gt;£ Pound Sterling&lt;/a&gt; &lt;/li&gt; <br/>
+          &lt;li&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65&amp;currency=USD"&gt;$ US Dollar&lt;/a&gt; &lt;/li&gt; <br/>
+         &lt;/ul&gt; &lt;/li&gt; <br/>
+       &lt;/ul&gt; <br/>
+      &lt;/div&gt; <br/>
+      &lt;div class="block_7"&gt;<br/>
+       &lt;ul class="nav topcart pull-left"&gt; <br/>
+        &lt;li class="dropdown hover"&gt; &lt;a href="https://automationteststore.com/index.php?rt=checkout/cart" class="dropdown-toggle"&gt;&lt;i class="fa fa-shopping-cart fa-fw"&gt;&lt;/i&gt;&nbsp;&nbsp; &lt;span class="label label-orange font14"&gt;0&lt;/span&gt; Items - &lt;span class="cart_total"&gt;$0.00&lt;/span&gt; &lt;b class="caret"&gt;&lt;/b&gt; &lt;/a&gt; <br/>
+         &lt;ul class="dropdown-menu topcartopen "&gt; <br/>
+          &lt;li&gt; <br/>
+           &lt;div id="top_cart_product_list"&gt; <br/>
+            &lt;div class="empty_cart text-center"&gt; &lt;i class="fa fa-shopping-cart"&gt;&lt;/i&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+           &lt;div class="row"&gt; <br/>
+            &lt;div class="col-sm-6 col-xs-6 text-center"&gt; &lt;a class="btn btn-default" href="https://automationteststore.com/index.php?rt=checkout/cart" title="View Cart"&gt; &lt;i class="fa fa-shopping-cart fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+            &lt;div class="col-sm-6 col-xs-6  text-center"&gt; &lt;a class="btn btn-primary" href="https://automationteststore.com/index.php?rt=checkout/shipping" title="Checkout"&gt; &lt;i class="fa fa-money fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; &lt;/li&gt; <br/>
+         &lt;/ul&gt; &lt;/li&gt; <br/>
+       &lt;/ul&gt;<br/>
+      &lt;/div&gt; <br/>
+      &lt;div class="block_8"&gt;<br/>
+       &lt;div class="header_block"&gt; <br/>
+        &lt;div class="social_icons"&gt; &lt;a href="http://www.facebook.com" target="_blank" title="Facebook" class="facebook" rel="noopener"&gt;Facebook&lt;/a&gt; &lt;a href="https://twitter.com/" target="_blank" title="Twitter" class="twitter" rel="noopener"&gt;Twitter&lt;/a&gt; &lt;a href="https://uk.linkedin.com/" title="Linkedin" class="linkedin"&gt;Linkedin&lt;/a&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt;<br/>
+      &lt;/div&gt; &lt;!-- header blocks placeholder (EOF) --&gt; <br/>
+     &lt;/div&gt; <br/>
+    &lt;/div&gt; <br/>
+   &lt;/header&gt; &lt;!-- header_bottom blocks placeholder --&gt; <br/>
+   &lt;div class="container-fluid"&gt; <br/>
+    &lt;div class="col-md-12"&gt; <br/>
+     &lt;section id="categorymenu"&gt; <br/>
+      &lt;h4 class="hidden"&gt;&nbsp;&lt;/h4&gt; <br/>
+      &lt;nav class="subnav"&gt; <br/>
+       &lt;ul class="nav-pills categorymenu"&gt; <br/>
+        &lt;li&gt;&lt;a class="active menu_home" href="https://automationteststore.com/"&gt;Home&lt;/a&gt; <br/>
+         &lt;div&gt; <br/>
+          &lt;ul id="main_menu" class="nav"&gt; &lt;!-- Top Nav Start --&gt; <br/>
+           &lt;li data-id="menu_specials" class="dropdown "&gt;&lt;a class="top menu_specials" href="https://automationteststore.com/index.php?rt=product/special"&gt;&lt;i class="fa fa-tag"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Specials&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+           &lt;li data-id="menu_account" class="dropdown "&gt;&lt;a class="top menu_account" href="https://automationteststore.com/index.php?rt=account/account"&gt;&lt;i class="fa fa-user"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Account&lt;/span&gt;&lt;/a&gt; <br/>
+            &lt;ul class="sub_menu dropdown-menu"&gt; <br/>
+             &lt;li data-id="menu_login" class="dropdown "&gt;&lt;a class="sub menu_login" href="https://automationteststore.com/index.php?rt=account/login"&gt;&lt;i class="fa fa-user"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Login&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+             &lt;li data-id="menu_order" class="dropdown "&gt;&lt;a class="sub menu_order" href="https://automationteststore.com/index.php?rt=account/invoice"&gt;&lt;i class="fa fa-briefcase"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Check Your Order&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+            &lt;/ul&gt; &lt;/li&gt; <br/>
+           &lt;li data-id="menu_cart" class="dropdown "&gt;&lt;a class="top nobackground" href="https://automationteststore.com/index.php?rt=checkout/cart"&gt;&lt;i class="fa fa-shopping-cart"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Cart&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+           &lt;li data-id="menu_checkout" class="dropdown "&gt;&lt;a class="top menu_checkout" href="https://automationteststore.com/index.php?rt=checkout/shipping"&gt;&lt;i class="fa fa-money"&gt;&lt;/i&gt;&nbsp;&lt;span class="menu_text"&gt;Checkout&lt;/span&gt;&lt;/a&gt;&lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=68"&gt;&nbsp;&nbsp;Apparel &amp; accessories&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=68_69"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Shoes&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/77/new_ladies_red1_jpg-100216-120x120.jpg" alt="Shoes" title="Shoes" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=68_70"&gt;&nbsp;&nbsp;&nbsp;&nbsp;T-shirts&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/79/t_shirt_3_jpg-100243-120x120.jpg" alt="T-shirts" title="T-shirts" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/79/t_shirt_3a_jpg-100244-120x120.jpg" alt="Apparel &amp; accessories" title="Apparel &amp; accessories" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/79/t_shirt_3a_jpg-100244-120x120.jpg" alt="Apparel &amp; accessories" title="Apparel &amp; accessories" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36"&gt;&nbsp;&nbsp;Makeup&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_40"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Cheeks&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_07_jpg-100133-120x120.jpg" alt="Cheeks" title="Cheeks" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_39"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Eyes&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_47_png-100136-120x120.png" alt="Eyes" title="Eyes" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_38"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Face&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_05_jpg-100132-120x120.jpg" alt="Face" title="Face" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_41"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Lips&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_08_3_jpg-100134-120x120.jpg" alt="Lips" title="Lips" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_42"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Nails&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_10_2_jpg-100135-120x120.jpg" alt="Nails" title="Nails" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=36_37"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Value Sets&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_11_2_jpg-100137-120x120.jpg" alt="Value Sets" title="Value Sets" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_04_jpg-100124-120x120.jpg" alt="Makeup" title="Makeup" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_04_jpg-100124-120x120.jpg" alt="Makeup" title="Makeup" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43"&gt;&nbsp;&nbsp;Skincare&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43_47"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Eyes&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_46_jpg-100143-120x120.jpg" alt="Eyes" title="Eyes" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43_46"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Face&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_42_jpg-100142-120x120.jpg" alt="Face" title="Face" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43_45"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Gift Ideas &amp; Sets&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/73/demo_product_37_jpg-100145-120x120.jpg" alt="Gift Ideas &amp; Sets" title="Gift Ideas &amp; Sets" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43_48"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Hands &amp; Nails&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/73/demo_product_49_1_png-100146-120x120.png" alt="Hands &amp; Nails" title="Hands &amp; Nails" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=43_44"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Sun&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/73/demo_product_18_jpg-100144-120x120.jpg" alt="Sun" title="Sun" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_15_jpg-100125-120x120.jpg" alt="Skincare" title="Skincare" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_15_jpg-100125-120x120.jpg" alt="Skincare" title="Skincare" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=49"&gt;&nbsp;&nbsp;Fragrance&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=49_51"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Men&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_30_2_jpg-100129-120x120.jpg" alt="Men" title="Men" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=49_50"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Women&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_34_jpg-100128-120x120.jpg" alt="Women" title="Women" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_14_2_jpg-100126-120x120.jpg" alt="Fragrance" title="Fragrance" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_14_2_jpg-100126-120x120.jpg" alt="Fragrance" title="Fragrance" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=58"&gt;&nbsp;&nbsp;Men&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=58_63"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Body &amp; Shower&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_27_jpg-100141-120x120.jpg" alt="Body &amp; Shower" title="Body &amp; Shower" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=58_59"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Fragrance Sets&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_40_2_jpg-100138-120x120.jpg" alt="Fragrance Sets" title="Fragrance Sets" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=58_61"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Pre-Shave &amp; Shaving&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_29_jpg-100140-120x120.jpg" alt="Pre-Shave &amp; Shaving" title="Pre-Shave &amp; Shaving" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=58_60"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Skincare&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_44_jpg-100139-120x120.jpg" alt="Skincare" title="Skincare" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/79/demo_product31_png-100249-120x120.png" alt="Men" title="Men" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/79/demo_product31_png-100249-120x120.png" alt="Men" title="Men" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=52"&gt;&nbsp;&nbsp;Hair Care&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=52_54"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Conditioner&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_23_jpg-100131-120x120.jpg" alt="Conditioner" title="Conditioner" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=52_53"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Shampoo&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/72/demo_product_24_jpg-100130-120x120.jpg" alt="Shampoo" title="Shampoo" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_23_jpg-100123-120x120.jpg" alt="Hair Care" title="Hair Care" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/71/demo_product_23_jpg-100123-120x120.jpg" alt="Hair Care" title="Hair Care" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;li class="current"&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65"&gt;&nbsp;&nbsp;Books&lt;/a&gt; &lt;!-- Subcategories --&gt; <br/>
+         &lt;div class="subcategories"&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_66"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Audio CD&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/76/cdaudio_png-100199-120x120.png" alt="Audio CD" title="Audio CD" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_67"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Paperback&lt;/a&gt; &lt;img class="sub_cat_image" style="display:none; width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/76/paper2_jpg-100202-120x120.jpg" alt="Paperback" title="Paperback" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+          &lt;ul&gt; <br/>
+           &lt;li class="parent_cat_image" style="display:none"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/76/book2_png-100200-120x120.png" alt="Books" title="Books" width="120" height="120"&gt; &lt;/li&gt; <br/>
+           &lt;li class="cat_image"&gt; &lt;img class="root_cat_image" style="display:block;  width: 120px; height: 120px;" src="//automationteststore.com/image/thumbnails/18/76/book2_png-100200-120x120.png" alt="Books" title="Books" width="120" height="120"&gt; &lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; &lt;/li&gt; <br/>
+       &lt;/ul&gt; &lt;select class="form-control"&gt;&lt;option selected value=""&gt;Go to...&lt;/option&gt;&lt;option value="https://automationteststore.com/"&gt;Home&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/special"&gt;&nbsp;Specials&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/account"&gt;&nbsp;Account&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/login"&gt;&nbsp;Login&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=account/invoice"&gt;&nbsp;Check Your Order&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=checkout/cart"&gt;&nbsp;Cart&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=checkout/shipping"&gt;&nbsp;Checkout&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=68"&gt;&nbsp;&nbsp;Apparel &amp; accessories&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=68_69"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Shoes&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=68_70"&gt;&nbsp;&nbsp;&nbsp;&nbsp;T-shirts&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36"&gt;&nbsp;&nbsp;Makeup&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_40"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Cheeks&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_39"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Eyes&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_38"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Face&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_41"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Lips&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_42"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Nails&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=36_37"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Value Sets&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43"&gt;&nbsp;&nbsp;Skincare&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43_47"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Eyes&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43_46"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Face&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43_45"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Gift Ideas &amp; Sets&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43_48"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Hands &amp; Nails&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=43_44"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Sun&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=49"&gt;&nbsp;&nbsp;Fragrance&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=49_51"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Men&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=49_50"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Women&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=58"&gt;&nbsp;&nbsp;Men&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=58_63"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Body &amp; Shower&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=58_59"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Fragrance Sets&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=58_61"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Pre-Shave &amp; Shaving&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=58_60"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Skincare&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=52"&gt;&nbsp;&nbsp;Hair Care&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=52_54"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Conditioner&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=52_53"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Shampoo&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=65"&gt;&nbsp;&nbsp;Books&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=65_66"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Audio CD&lt;/option&gt;&lt;option value="https://automationteststore.com/index.php?rt=product/category&amp;path=65_67"&gt;&nbsp;&nbsp;&nbsp;&nbsp;Paperback&lt;/option&gt;&lt;/select&gt;<br/>
+      &lt;/nav&gt; <br/>
+     &lt;/section&gt; <br/>
+    &lt;/div&gt; <br/>
+    &lt;div class="col-md-12"&gt; <br/>
+     &lt;section class="breadcrumbs"&gt; <br/>
+      &lt;h4 class="hidden"&gt;&nbsp;&lt;/h4&gt; <br/>
+      &lt;ul class="breadcrumb"&gt; <br/>
+       &lt;li&gt; &lt;a href="https://automationteststore.com/"&gt; &lt;i class="fa fa-home" title="Home"&gt;&lt;/i&gt; Home &lt;/a&gt; &lt;/li&gt; <br/>
+       &lt;li&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65"&gt; Books &lt;/a&gt; &lt;/li&gt; <br/>
+      &lt;/ul&gt; <br/>
+     &lt;/section&gt; <br/>
+    &lt;/div&gt; <br/>
+   &lt;/div&gt; &lt;!-- header_bottom blocks placeholder --&gt; <br/>
+   &lt;div id="maincontainer"&gt; <br/>
+    &lt;div class="container-fluid"&gt; <br/>
+     &lt;div class="col-md-12 col-xs-12 mt20"&gt; <br/>
+      &lt;div class=""&gt; <br/>
+       &lt;h1 class="heading1"&gt; &lt;span class="maintext"&gt;Books&lt;/span&gt; &lt;span class="subtext"&gt;&lt;/span&gt; &lt;/h1&gt; <br/>
+       &lt;div class="contentpanel"&gt; <br/>
+        &lt;div style="margin-bottom: 15px;"&gt;<br/>
+         Find the Items You'd Like to read<br/>
+        &lt;/div&gt; <br/>
+        &lt;ul class="thumbnails row"&gt; <br/>
+         &lt;li class="col-md-2 col-sm-2 col-xs-6 align_center"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_66"&gt; &lt;img src="//automationteststore.com/image/thumbnails/18/76/cdaudio_png-100199-120x120.png" width="120" height="120" alt="category image"&gt; &lt;/a&gt; <br/>
+          &lt;div class="mt10 align_center" style="height: 40px;"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_66"&gt;Audio CD&lt;/a&gt; <br/>
+          &lt;/div&gt; &lt;/li&gt; <br/>
+         &lt;li class="col-md-2 col-sm-2 col-xs-6 align_center"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_67"&gt; &lt;img src="//automationteststore.com/image/thumbnails/18/76/paper2_jpg-100202-120x120.jpg" width="120" height="120" alt=""&gt; &lt;/a&gt; <br/>
+          &lt;div class="mt10 align_center" style="height: 40px;"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/category&amp;path=65_67"&gt;Paperback&lt;/a&gt; <br/>
+          &lt;/div&gt; &lt;/li&gt; <br/>
+        &lt;/ul&gt; <br/>
+        &lt;div class="sorting well"&gt; <br/>
+         &lt;form class=" form-inline pull-left"&gt;<br/>
+           Sort By:&nbsp;&nbsp;&lt;select name="sort" id="sort" class="form-control " data-placeholder=""&gt; &lt;option value="date_modified-ASC" selected&gt;Date Old &gt; New&lt;/option&gt; &lt;option value="pd.name-ASC"&gt;Name A - Z&lt;/option&gt; &lt;option value="pd.name-DESC"&gt;Name Z - A&lt;/option&gt; &lt;option value="p.price-ASC"&gt;Price Low &gt; High&lt;/option&gt; &lt;option value="p.price-DESC"&gt;Price High &gt; Low&lt;/option&gt; &lt;option value="rating-DESC"&gt;Rating Highest&lt;/option&gt; &lt;option value="rating-ASC"&gt;Rating Lowest&lt;/option&gt; &lt;option value="date_modified-DESC"&gt;Date New &gt; Old&lt;/option&gt; &lt;/select&gt; <br/>
+         &lt;/form&gt; <br/>
+         &lt;div class="btn-group pull-right"&gt; &lt;button class="btn" id="list"&gt;&lt;i class="fa fa-th-list"&gt;&lt;/i&gt; &lt;/button&gt; &lt;button class="btn btn-orange" id="grid"&gt;&lt;i class="fa fa-th"&gt;&lt;/i&gt;&lt;/button&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+        &lt;div class="thumbnails grid row list-inline"&gt; <br/>
+         &lt;div class="col-md-3 col-sm-6 col-xs-12"&gt; <br/>
+          &lt;div class="fixed_wrapper"&gt; <br/>
+           &lt;div class="fixed"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113" title="Paper Towns by John Green"&gt;Paper Towns by John Green&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+          &lt;div class="thumbnail"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/papertowns2_jpg-100201-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+           &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113#review"&gt;Write Review&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+           &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+           &lt;div class="pricetag jumbotron"&gt; &lt;a data-id="113" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;div class="price"&gt; <br/>
+             &lt;div class="oneprice"&gt;<br/>
+              $9.99<br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div class="col-md-3 col-sm-6 col-xs-12"&gt; <br/>
+          &lt;div class="fixed_wrapper"&gt; <br/>
+           &lt;div class="fixed"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114" title="Allegiant by Veronica Roth"&gt;Allegiant by Veronica Roth&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+          &lt;div class="thumbnail"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/paper_cover_allegiant_jpg-100203-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+           &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114#review"&gt;Write Review&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+           &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+           &lt;div class="pricetag jumbotron"&gt; &lt;a data-id="114" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;div class="price"&gt; <br/>
+             &lt;div class="oneprice"&gt;<br/>
+              $7.99<br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div class="col-md-3 col-sm-6 col-xs-12"&gt; <br/>
+          &lt;div class="fixed_wrapper"&gt; <br/>
+           &lt;div class="fixed"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111" title="New French With Ease (1 book + 1 mp3 CD)"&gt;New French With Ease (1 book + 1 mp3 CD)&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+          &lt;div class="thumbnail"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/audiocd1_jpg-100195-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+           &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111#review"&gt;&lt;img class="rating" src="storefront/view/default/image/stars_5.png" alt="5 out of 5 Stars!" width="64" height="12"&gt;&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+           &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+           &lt;div class="pricetag jumbotron"&gt; &lt;a data-id="111" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;div class="price"&gt; <br/>
+             &lt;div class="oneprice"&gt;<br/>
+              $85.00<br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div class="col-md-3 col-sm-6 col-xs-12"&gt; <br/>
+          &lt;div class="fixed_wrapper"&gt; <br/>
+           &lt;div class="fixed"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112" title="The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life"&gt;The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+          &lt;div class="thumbnail"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/paperback1_jpg-100198-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+           &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112#review"&gt;Write Review&lt;/a&gt; <br/>
+           &lt;/div&gt; <br/>
+           &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+           &lt;div class="pricetag jumbotron"&gt; &lt;a data-id="112" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+            &lt;div class="price"&gt; <br/>
+             &lt;div class="oneprice"&gt;<br/>
+              $16.20<br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+        &lt;div class="thumbnails list row"&gt; <br/>
+         &lt;div&gt; <br/>
+          &lt;div class="thumbnail"&gt; <br/>
+           &lt;div class="row"&gt; <br/>
+            &lt;div class="col-md-4"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/papertowns2_jpg-100201-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+            &lt;div class="col-md-8"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113"&gt;Paper Towns by John Green &lt;/a&gt; <br/>
+             &lt;div class="productdiscrption"&gt;<br/>
+              &lt;strong&gt;Winner of the Edgar Award&lt;br&gt; The #1 New York Times Bestseller&lt;br&gt; Publishers Weekly and USA Today Bestseller&lt;/strong&gt;<br/>
+              &lt;br&gt; <br/>
+              &lt;br&gt; &lt;em&gt;Millions of Copies Sold&lt;/em&gt;<br/>
+              &lt;br&gt; <br/>
+              &lt;br&gt; Quentin Jacobsen has spent a lifetime loving the magnificent Margo Roth Spiegelman from afar. So when she cracks open a window and climbs back into his life—summoning him for an ingenious campaign of revenge—he follows. When their all-nighter ends and a new day breaks, Margo has disappeared. But Q soon learns that there are clues—and they’re for him. Embarking on an exhilarating adventure to find her, the closer Q gets, the less he sees the girl he thought he knew.<br/>
+              &lt;br&gt; <br/>
+              &lt;br&gt; October 2008<br/>
+              &lt;br&gt; 352 pages<br/>
+              &lt;br&gt; ISBN 9781101010938<br/>
+              &lt;br&gt; Title: Paper Towns<br/>
+              &lt;br&gt; Author: John Green<br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=113#review"&gt;Write Review&lt;/a&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+             &lt;div class="pricetag pricetag_wide pull-right"&gt; &lt;span class="spiral"&gt;&lt;/span&gt; &lt;a data-id="113" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+              &lt;div class="price"&gt; <br/>
+               &lt;div class="oneprice"&gt;<br/>
+                $9.99<br/>
+               &lt;/div&gt; <br/>
+              &lt;/div&gt; <br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div&gt; <br/>
+          &lt;div class="thumbnail"&gt; <br/>
+           &lt;div class="row"&gt; <br/>
+            &lt;div class="col-md-4"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/paper_cover_allegiant_jpg-100203-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+            &lt;div class="col-md-8"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114"&gt;Allegiant by Veronica Roth &lt;/a&gt; <br/>
+             &lt;div class="productdiscrption"&gt;<br/>
+              Now includes an excerpt from the upcoming Four: A Divergent Collection.<br/>
+              &lt;br&gt; <br/>
+              &lt;br&gt; What if your whole world was a lie? What if a single revelation—like a single choice—changed everything? What if love and loyalty made you do things you never expected?<br/>
+              &lt;br&gt; The explosive conclusion to Veronica Roth's #1 New York Times bestselling Divergent trilogy reveals the secrets of the dystopian world that has captivated millions of readers in &lt;em&gt;Divergent&lt;/em&gt; and &lt;em&gt;Insurgent&lt;/em&gt;.<br/>
+              &lt;br&gt; <br/>
+              &lt;br&gt; October 2013<br/>
+              &lt;br&gt; 544 pages<br/>
+              &lt;br&gt; ISBN 9780062209276<br/>
+              &lt;br&gt; Title: Allegiant<br/>
+              &lt;br&gt; Author: Veronica Roth<br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=114#review"&gt;Write Review&lt;/a&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+             &lt;div class="pricetag pricetag_wide pull-right"&gt; &lt;span class="spiral"&gt;&lt;/span&gt; &lt;a data-id="114" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+              &lt;div class="price"&gt; <br/>
+               &lt;div class="oneprice"&gt;<br/>
+                $7.99<br/>
+               &lt;/div&gt; <br/>
+              &lt;/div&gt; <br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div&gt; <br/>
+          &lt;div class="thumbnail"&gt; <br/>
+           &lt;div class="row"&gt; <br/>
+            &lt;div class="col-md-4"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/audiocd1_jpg-100195-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+            &lt;div class="col-md-8"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111"&gt;New French With Ease (1 book + 1 mp3 CD) &lt;/a&gt; <br/>
+             &lt;div class="productdiscrption"&gt;<br/>
+              This title is available in book and CD. All Assimil courses are based on intuitive assimilations[registered], an original principle that is simple yet highly effective. Assimil has taken this natural process, through which you learned to speak your own language, and adapted it to their book and audio courses. Working progressively, with natural, lively dialogues, simple text notes and exercises, you will progress steadily to a level where you are able to converse in everyday situations. The first part of the course is the passive phase: you immerse yourself in the language by reading and repeating each lesson. During the second, the active phase, you use the structures and reflexes you have already absorbed while continuing to advance and learn. In just a few months, you will be able to speak French easily, fluently and naturally.<br/>
+              &lt;br&gt; &nbsp; <br/>
+              &lt;ul style="color: rgb(51, 51, 51); padding: 0px; list-style-type: none; font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 19px; orphans: auto; text-align: start; text-indent: 0px;"&gt; <br/>
+               &lt;li&gt;Audio CD: 610 pages&lt;/li&gt; <br/>
+               &lt;li&gt;Publisher: ASSiMiL (3 April 2008)&lt;/li&gt; <br/>
+               &lt;li&gt;Language: English&lt;/li&gt; <br/>
+               &lt;li&gt;ISBN-10: 2700570057&lt;/li&gt; <br/>
+               &lt;li&gt;ISBN-13: 978-2700570052&lt;/li&gt; <br/>
+               &lt;li&gt;Product Dimensions: 23.6 x 17.8 x 5.1 cm&lt;/li&gt; <br/>
+              &lt;/ul&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=111#review"&gt;&lt;img class="rating" src="storefront/view/default/image/stars_5.png" alt="5 out of 5 Stars!"&gt;&lt;/a&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+             &lt;div class="pricetag pricetag_wide pull-right"&gt; &lt;span class="spiral"&gt;&lt;/span&gt; &lt;a data-id="111" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+              &lt;div class="price"&gt; <br/>
+               &lt;div class="oneprice"&gt;<br/>
+                $85.00<br/>
+               &lt;/div&gt; <br/>
+              &lt;/div&gt; <br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div&gt; <br/>
+          &lt;div class="thumbnail"&gt; <br/>
+           &lt;div class="row"&gt; <br/>
+            &lt;div class="col-md-4"&gt; &lt;a href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112"&gt;&lt;img src="//automationteststore.com/image/thumbnails/18/76/paperback1_jpg-100198-250x250.jpg" width="250" height="250" alt=""&gt;&lt;/a&gt; <br/>
+            &lt;/div&gt; <br/>
+            &lt;div class="col-md-8"&gt; &lt;a class="prdocutname" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112"&gt;The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life &lt;/a&gt; <br/>
+             &lt;div class="productdiscrption"&gt;<br/>
+              What if you could miraculously wake up tomorrow and any—or every area of your life was transformed? What would be different? Would you be happier? Healthier? More successful? In better shape? Would you have more energy? Less Stress? More Money? Better relationships? Which of your problems would be solved?<br/>
+              &lt;br&gt; &nbsp; <br/>
+              &lt;ul style="color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal;"&gt; <br/>
+               &lt;li&gt;&lt;b style="font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;"&gt;Print Length:&lt;/b&gt; 172 pages&lt;/li&gt; <br/>
+               &lt;li&gt;&lt;b style="font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;"&gt;Page Numbers Source ISBN:&lt;/b&gt; 0979019710&lt;/li&gt; <br/>
+               &lt;li&gt;&lt;b style="font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;"&gt;Publication Date:&lt;/b&gt; December 7, 2012&lt;/li&gt; <br/>
+               &lt;li&gt;&lt;b style="font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;"&gt;Language:&lt;/b&gt; English&lt;/li&gt; <br/>
+               &lt;li&gt;&lt;b style="font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;"&gt;ASIN:&lt;/b&gt; B00AKKS278&lt;/li&gt; <br/>
+              &lt;/ul&gt; <br/>
+              &lt;hr&gt; About the Author <br/>
+              &lt;p&gt;At age 20, Hal Elrod was hit head on by a drunk driver at 70 mph, was dead for 6 minutes, and doctors told his parents that if Hal ever came out of his coma, he had permanent brain damage and may never walk again. After 6 days of fighting for his life, Hal proved that we all have the ability to overcome any obstacle and create the life of our dreams. Not only did he walk, he became an ultra-marathon runner, hall of fame business achiever, international Keynote Speaker, Success Coach, husband, father, hip-hop recording artist, and multiple time #1 bestselling author of "The Miracle Morning: The Not-So-Obvious Secret Guaranteed To Transform Your Life... (Before 8AM)" and "Taking Life Head On: How To Love the Life You Have While You Create the Life of Your Dreams"—two of the highest rated and most acclaimed books on Amazon.com. (Just read a few of the 200+ five-star reviews, and you’ll see why.) Hal has appeared on dozens of radio and TV shows, and he’s been featured in numerous books, including The Education of Millionaires, Cutting Edge Sales, Living College Life in the Front Row, The Author’s Guide To Building An Online Platform, The 800-Pound Gorilla of Sales and the bestselling Chicken Soup for the Soul series. To contact Hal about media appearances, speaking at your event, or if you just want to receive free training videos and resources, visit www.YoPalHal.com. To connect with Hal on Twitter, follow @HalElrod, and on Facebook at www.Facebook.com/YoPalHal.&lt;/p&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="shortlinks"&gt; &lt;a class="details" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112"&gt;View&lt;/a&gt; &lt;a class="compare" href="https://automationteststore.com/index.php?rt=product/product&amp;path=65&amp;product_id=112#review"&gt;Write Review&lt;/a&gt; <br/>
+             &lt;/div&gt; <br/>
+             &lt;div class="blurb"&gt;&lt;/div&gt; <br/>
+             &lt;div class="pricetag pricetag_wide pull-right"&gt; &lt;span class="spiral"&gt;&lt;/span&gt; &lt;a data-id="112" href="#" class="productcart" title="Add to Cart"&gt; &lt;i class="fa fa-cart-plus fa-fw"&gt;&lt;/i&gt; &lt;/a&gt; <br/>
+              &lt;div class="price"&gt; <br/>
+               &lt;div class="oneprice"&gt;<br/>
+                $16.20<br/>
+               &lt;/div&gt; <br/>
+              &lt;/div&gt; <br/>
+             &lt;/div&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/div&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+        &lt;div class="sorting well"&gt; <br/>
+         &lt;form class="form-inline pull-left"&gt;<br/>
+           Per Page&nbsp;&nbsp; &lt;select name="limit" id="limit" class="form-control input-mini" data-placeholder="" onchange="location='https://automationteststore.com/index.php?rt=product/category&amp;path=65&amp;sort=date_modified-ASC&amp;page=1&amp;limit='+this.value;"&gt; &lt;option value="10"&gt;10&lt;/option&gt; &lt;option value="20" selected&gt;20&lt;/option&gt; &lt;option value="30"&gt;30&lt;/option&gt; &lt;option value="40"&gt;40&lt;/option&gt; &lt;option value="50"&gt;50&lt;/option&gt; &lt;/select&gt; &nbsp;&nbsp; 1 - 4 of 4<br/>
+         &lt;/form&gt; <br/>
+         &lt;div class="pull-right"&gt; <br/>
+          &lt;ul class="pagination"&gt; <br/>
+           &lt;li class="disabled"&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; <br/>
+         &lt;div class="btn-group pull-right"&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;script type="text/javascript"&gt;<br/>
+<br/>
+$('#sort').change(function () {<br/>
+	Resort();<br/>
+});<br/>
+<br/>
+function Resort() {<br/>
+	url = 'https://automationteststore.com/index.php?rt=product/category&path=65';<br/>
+	url += '&sort=' + $('#sort').val();<br/>
+	url += '&limit=' + $('#limit').val();<br/>
+	location = url;<br/>
+}<br/>
+&lt;/script&gt; <br/>
+      &lt;/div&gt; <br/>
+     &lt;/div&gt; <br/>
+    &lt;/div&gt; <br/>
+   &lt;/div&gt; &lt;!-- footer top blocks placeholder --&gt; <br/>
+   &lt;div class="container-fluid"&gt; <br/>
+    &lt;div class="col-md-12"&gt; &lt;!-- Init NeoWize --&gt; <br/>
+     &lt;script&gt;<br/>
+	(function()<br/>
+	{<br/>
+		try<br/>
+		{<br/>
+			// set neowize api key<br/>
+			window.neowize_api_key = "DA431C28-1476-458B-A6D1-D2BC0BD6FBEC";<br/>
+<br/>
+			// set product id (relevant for product pages)<br/>
+			window.neowize_product_id = "";<br/>
+<br/>
+			// set current cart data<br/>
+			window.neowize_cart_data = [];<br/>
+		}<br/>
+		catch (err)<br/>
+		{<br/>
+			window.neowize_error = err;<br/>
+		}<br/>
+	})();<br/>
+&lt;/script&gt; <br/>
+     &lt;script type="text/javascript" src="https://s3-eu-west-1.amazonaws.com/shoptimally-ire/dist/neowize/abantecart/nwa.js" defer async&gt;&lt;/script&gt; <br/>
+     &lt;script type="text/javascript" src="https://s3-eu-west-1.amazonaws.com/shoptimally-ire/dist/neowize/abantecart/abante.js" defer async&gt;&lt;/script&gt; &lt;!-- End NeoWize Init --&gt; <br/>
+    &lt;/div&gt; <br/>
+   &lt;/div&gt; &lt;!-- footer top blocks placeholder --&gt; &lt;!-- footer blocks placeholder --&gt; <br/>
+   &lt;div id="footer"&gt; <br/>
+    &lt;footer&gt; <br/>
+     &lt;section class="footersocial"&gt; <br/>
+      &lt;h4 class="hidden"&gt;&nbsp;&lt;/h4&gt; <br/>
+      &lt;div class="container-fluid"&gt; <br/>
+       &lt;div class="col-md-3"&gt; <br/>
+        &lt;div class="footer_block"&gt; <br/>
+         &lt;div class="block_frame block_frame_html_block" id="block_frame_html_block_2064"&gt; <br/>
+          &lt;h2&gt;About Us&lt;/h2&gt; <br/>
+          &lt;p&gt; This store has been created to enable students to practice their automation testing skills. This is not a real store, no orders are actually placed or payments taken. This store is to be used for educational purposes only. &lt;/p&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="col-md-3"&gt; <br/>
+        &lt;div class="footer_block"&gt; <br/>
+         &lt;div class="block_frame block_frame_html_block" id="block_frame_html_block_2065"&gt; <br/>
+          &lt;h2&gt;Contact Us&lt;/h2&gt; <br/>
+          &lt;ul class="contact"&gt; <br/>
+           &lt;li&gt;&lt;span class="phone"&gt;&nbsp;&lt;/span&gt;+123 456 7890&lt;/li&gt; <br/>
+           &lt;li&gt;&lt;span class="email"&gt;&nbsp;&lt;/span&gt;admin@automationteststore.com&lt;/li&gt; <br/>
+          &lt;/ul&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="col-md-3"&gt; <br/>
+        &lt;div class="footer_block"&gt; <br/>
+         &lt;div class="block_frame block_frame_html_block" id="block_frame_html_block_2066"&gt; <br/>
+          &lt;h2&gt;Testimonials&lt;/h2&gt; <br/>
+          &lt;div style="font-family: 'Open Sans', sans-serif;" class="flexslider" id="testimonialsidebar"&gt; <br/>
+           &lt;div class="flex-viewport" style="overflow: hidden; position: relative;"&gt;<br/>
+            &lt;ul class="slides" style="width: 1200%; transition-duration: 0s; transform: translate3d(-393px, 0px, 0px);"&gt;<br/>
+             &lt;li class="clone" style="width: 393px; float: left; display: block;"&gt; "Regular customer and products at great prices. Thanks again."&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Mrs Baker on trustedmegareviews.org &lt;/span&gt;&lt;/li&gt; <br/>
+             &lt;li style="width: 393px; float: left; display: block;" class="flex-active-slide"&gt; "Really great products and professional service!"&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Megan Witmore&lt;/span&gt;&lt;/li&gt; <br/>
+             &lt;li style="width: 393px; float: left; display: block;"&gt; "I found this store to be very reasonably priced and the service was superb. Highly recommended "&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Jason Sturidge&lt;/span&gt;&lt;/li&gt; <br/>
+             &lt;li style="width: 393px; float: left; display: block;"&gt; "Returns were easy and my replacement item arrived very quickly. Really great service. Thanks and will be buying again."&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Kirsty Williams&lt;/span&gt;&lt;/li&gt; <br/>
+             &lt;li style="width: 393px; float: left; display: block;"&gt; "Regular customer and products at great prices. Thanks again."&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Mrs Baker on trustedmegareviews.org &lt;/span&gt;&lt;/li&gt; <br/>
+             &lt;li style="width: 393px; float: left; display: block;" class="clone"&gt; "Really great products and professional service!"&lt;br&gt; &lt;span class="pull-left orange"&gt;By : Megan Witmore&lt;/span&gt;&lt;/li&gt;<br/>
+            &lt;/ul&gt;<br/>
+           &lt;/div&gt;<br/>
+           &lt;ol class="flex-control-nav flex-control-paging"&gt;<br/>
+            &lt;li&gt;&lt;a class="flex-active"&gt;1&lt;/a&gt;&lt;/li&gt;<br/>
+            &lt;li&gt;&lt;a&gt;2&lt;/a&gt;&lt;/li&gt;<br/>
+            &lt;li&gt;&lt;a&gt;3&lt;/a&gt;&lt;/li&gt;<br/>
+            &lt;li&gt;&lt;a&gt;4&lt;/a&gt;&lt;/li&gt;<br/>
+           &lt;/ol&gt;<br/>
+           &lt;ul class="flex-direction-nav"&gt;<br/>
+            &lt;li&gt;&lt;a class="flex-prev" href="#"&gt;Previous&lt;/a&gt;&lt;/li&gt;<br/>
+            &lt;li&gt;&lt;a class="flex-next" href="#"&gt;Next&lt;/a&gt;&lt;/li&gt;<br/>
+           &lt;/ul&gt;<br/>
+          &lt;/div&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="col-md-3"&gt; <br/>
+        &lt;div class="footer_block"&gt; <br/>
+         &lt;section id="newslettersignup"&gt; <br/>
+          &lt;h2&gt;Newsletter Signup&lt;/h2&gt; <br/>
+          &lt;div class="pull-left newsletter"&gt;<br/>
+           Sign up to Our Newsletter &amp; get attractive Offers by subscribing to our newsletters.<br/>
+          &lt;/div&gt; <br/>
+          &lt;div class="pull-right"&gt; <br/>
+           &lt;form id="subscribeFrm" action="https://automationteststore.com/index.php?rt=account/subscriber" method="get" enctype="multipart/form-data"&gt; <br/>
+            &lt;input type="hidden" name="csrftoken" value="ANxCMsuL7pZRFEINr3Xc1JFP4Dp8bSCn"&gt; <br/>
+            &lt;input type="hidden" name="csrfinstance" value="9"&gt; <br/>
+            &lt;div class="input-group"&gt; <br/>
+             &lt;input type="hidden" name="rt" value="account/subscriber"&gt; <br/>
+             &lt;input type="text" placeholder="Subscribe to Newsletter" name="email" id="appendedInputButton" class="form-control"&gt; &lt;span class="input-group-btn"&gt; &lt;button class="btn btn-orange" type="submit"&gt;Subscribe&lt;/button&gt; &lt;/span&gt; <br/>
+            &lt;/div&gt; <br/>
+           &lt;/form&gt; <br/>
+          &lt;/div&gt; <br/>
+         &lt;/section&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+      &lt;/div&gt; <br/>
+     &lt;/section&gt; <br/>
+     &lt;section class="footerlinks"&gt; <br/>
+      &lt;h2 class="hidden"&gt;&nbsp;&lt;/h2&gt; <br/>
+      &lt;div class="container-fluid"&gt; <br/>
+       &lt;div class="pull-left"&gt; <br/>
+        &lt;div class="info"&gt; <br/>
+         &lt;ul class="info_links_footer"&gt; <br/>
+          &lt;li&gt;<br/>
+           &lt;div class="dropdown"&gt; &lt;a href="https://automationteststore.com/index.php?rt=content/content&amp;content_id=1"&gt;About Us&lt;/a&gt; <br/>
+           &lt;/div&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;<br/>
+           &lt;div class="dropdown"&gt; &lt;a href="https://automationteststore.com/index.php?rt=content/content&amp;content_id=2"&gt;Privacy Policy&lt;/a&gt; <br/>
+           &lt;/div&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;<br/>
+           &lt;div class="dropdown"&gt; &lt;a href="https://automationteststore.com/index.php?rt=content/content&amp;content_id=3"&gt;Return Policy&lt;/a&gt; <br/>
+           &lt;/div&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;<br/>
+           &lt;div class="dropdown"&gt; &lt;a href="https://automationteststore.com/index.php?rt=content/content&amp;content_id=4"&gt;Shipping&lt;/a&gt; <br/>
+           &lt;/div&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=content/contact"&gt;Contact Us&lt;/a&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=content/sitemap"&gt;Site Map&lt;/a&gt;&lt;/li&gt; <br/>
+          &lt;li&gt;&lt;a href="https://automationteststore.com/index.php?rt=account/login"&gt;Login&lt;/a&gt;&lt;/li&gt; <br/>
+         &lt;/ul&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="pull-right"&gt; <br/>
+        &lt;div class="footer_block"&gt; <br/>
+         &lt;div class="social_icons"&gt; &lt;a href="http://www.facebook.com" target="_blank" title="Facebook" class="facebook" rel="noopener"&gt;Facebook&lt;/a&gt; &lt;a href="https://twitter.com/" target="_blank" title="Twitter" class="twitter" rel="noopener"&gt;Twitter&lt;/a&gt; &lt;a href="https://uk.linkedin.com/" title="Linkedin" class="linkedin"&gt;Linkedin&lt;/a&gt; <br/>
+         &lt;/div&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+      &lt;/div&gt; <br/>
+     &lt;/section&gt; <br/>
+     &lt;section class="copyrightbottom align_center"&gt; <br/>
+      &lt;h2 class="hidden"&gt;&nbsp;&lt;/h2&gt; <br/>
+      &lt;div class="container-fluid"&gt; <br/>
+       &lt;div class="pull-left mt5"&gt; <br/>
+        &lt;div class="b_block flt_right payment"&gt; <br/>
+         &lt;img alt="payments" src="storefront/view/default/image/payment.gif" width="162" height="26"&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="pull-right align_center"&gt;<br/>
+         Powered By &lt;a href="http://www.abantecart.com" target="_blank" title="Ideal OpenSource E-commerce Solution"&gt;AbanteCart&lt;/a&gt; <br/>
+        &lt;br&gt; Automation Test Store © 2025 <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="pull-right mr20 mt5"&gt; <br/>
+        &lt;div class="b_block flt_right payment"&gt; &lt;a href="http://www.abantecart.com/contribute-to-abantecart" target="_blank"&gt; &lt;img src="image/conrib_btn_sm.png" alt="Support AbanteCart eCommerce" width="103" height="28"&gt; &lt;/a&gt; <br/>
+        &lt;/div&gt; <br/>
+       &lt;/div&gt; <br/>
+      &lt;/div&gt; <br/>
+     &lt;/section&gt; &lt;a id="gotop" href="#"&gt;Back to top&lt;/a&gt; <br/>
+    &lt;/footer&gt; <br/>
+    &lt;div id="msgModal" class="modal fade"&gt; <br/>
+     &lt;div class="modal-dialog"&gt; <br/>
+      &lt;div class="modal-content"&gt; <br/>
+       &lt;div class="modal-header"&gt; &lt;button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true"&gt;×&lt;/button&gt; <br/>
+        &lt;h3 class="hidden"&gt;&nbsp;&lt;/h3&gt; <br/>
+       &lt;/div&gt; <br/>
+       &lt;div class="modal-body"&gt; <br/>
+       &lt;/div&gt; <br/>
+      &lt;/div&gt; <br/>
+     &lt;/div&gt; <br/>
+    &lt;/div&gt; <br/>
+   &lt;/div&gt; <br/>
+  &lt;/div&gt; &lt;!--<br/>
+AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donation.<br/>
+Please donate http://www.abantecart.com/donate<br/>
+//--&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/bootstrap.min.js" defer&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/common.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/respond.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.flexslider.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/easyzoom.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.validate.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.carouFredSel.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.mousewheel.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.touchSwipe.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.ba-throttle-debounce.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/jquery.onebyone.min.js" defer async&gt;&lt;/script&gt; <br/>
+  &lt;script type="text/javascript" src="storefront/view/default/javascript/custom.js" defer async&gt;&lt;/script&gt; <br/>
+ &lt;/body&gt;<br/>
+&lt;/html&gt;</code></pre></div></body></html>

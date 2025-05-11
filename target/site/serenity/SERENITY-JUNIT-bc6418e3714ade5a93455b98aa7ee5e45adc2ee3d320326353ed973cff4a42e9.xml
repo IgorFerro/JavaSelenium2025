@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="1" name="com.automationteststore.tests.MenuNavigationScreenplayTst" skipped="0" tests="1" time="23.05" timestamp="2025-05-11 11:40:38"><testcase classname="com.automationteststore.tests.MenuNavigationScreenplayTst" name="Test menu navigation"><failure message="&#10;Expecting a value that contains: &lt;[books]&gt;&#10;But got........................: &lt;&quot;https://automationteststore.com/index.php?rt=product/category&amp;path=65&quot;&gt;" type="java.lang.AssertionError">
+Expecting a value that contains: &lt;[books]&gt;
+But got........................: &lt;"https://automationteststore.com/index.php?rt=product/category&amp;path=65"&gt;</failure><system-err>
+Expecting a value that contains: &lt;[books]&gt;
+But got........................: &lt;"https://automationteststore.com/index.php?rt=product/category&amp;path=65"&gt;
+com.automationteststore.tests.MenuNavigationScreenplayTst.testMenuNavigation(MenuNavigationScreenplayTst.java:45)
+org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:100)
+org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:40)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:520)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:748)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:443)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:211)
+</system-err></testcase></testsuite>
