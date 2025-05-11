@@ -28,6 +28,7 @@ mvn test -Dtest=SelectMenuFluentTst
 1. Run Complete Shopping Flow Test:
 ```bash
 mvn test -Dtest=SelectMenuPageObjectsTst#testCompleteShoppingFlow
+mvn test -Dtest=SelectMenuPageFactoryTst#testCompleteShoppingFlow
 ```
 
 2. Run Men Skincare Navigation Test:

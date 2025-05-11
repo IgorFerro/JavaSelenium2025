@@ -1,21 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.automationteststore.tests.SelectMenuPageObjectsTst
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 41.11 s <<< FAILURE! -- in com.automationteststore.tests.SelectMenuPageObjectsTst
-com.automationteststore.tests.SelectMenuPageObjectsTst.testCompleteShoppingFlow -- Time elapsed: 41.10 s <<< ERROR!
-org.openqa.selenium.TimeoutException: 
-Expected condition failed: waiting for element to be clickable: By.xpath: //div[@id='maincontainer']/div/div/div/div/div[2]/div[5]/div[2]/div[3]/a/i (tried for 30 second(s) with 500 milliseconds interval)
-Build info: version: '4.18.1', revision: 'b1d3319b48'
-System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '14.4', java.version: '22.0.2'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 136.0.7103.93, chrome: {chromedriverVersion: 136.0.7103.92 (cb81a4cc5087..., userDataDir: /var/folders/jn/n7xhf4gs48n...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:49802}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:49802/devtoo..., se:cdpVersion: 136.0.7103.93, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 236436bff0d26a21a658aa8f0f567877
-	at org.openqa.selenium.support.ui.WebDriverWait.timeoutException(WebDriverWait.java:84)
-	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:228)
-	at com.automationteststore.pages.menu.SelectMenuPageObjects.addProductsToCart(SelectMenuPageObjects.java:48)
-	at com.automationteststore.pages.menu.SelectMenuPageObjects.completeShoppingFlow(SelectMenuPageObjects.java:78)
-	at com.automationteststore.tests.SelectMenuPageObjectsTst.testCompleteShoppingFlow(SelectMenuPageObjectsTst.java:17)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.57 s -- in com.automationteststore.tests.SelectMenuPageObjectsTst

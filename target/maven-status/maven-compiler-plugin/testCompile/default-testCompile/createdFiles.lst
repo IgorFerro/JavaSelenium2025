@@ -2,6 +2,5 @@ com/automationteststore/pages/BasePage.class
 com/automationteststore/pages/LoginPage.class
 com/automationteststore/utils/DriverManager.class
 com/automationteststore/pages/HomePage.class
-com/automationteststore/fluent/MenuNavigation.class
 com/automationteststore/tests/LoginTest.class
 com/automationteststore/tests/BaseTest.class

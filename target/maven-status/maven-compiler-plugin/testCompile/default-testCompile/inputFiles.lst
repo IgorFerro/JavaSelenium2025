@@ -1,9 +1,11 @@
+/Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/tests/SelectMenuPageFactoryTst.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/pages/LoginPage.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/tests/BaseTest.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/tests/SelectMenuPageObjectsTst.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/pages/menu/SelectMenuPageObjects.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/tests/LoginTest.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/pages/BasePage.java
+/Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/pages/menu/SelectMenuPageFactory.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/tests/menuFluent/SelectMenuFluentTst.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/utils/DriverManager.java
 /Users/andreiaoliveira/Documents/Java/src/test/java/com/automationteststore/pages/HomePage.java

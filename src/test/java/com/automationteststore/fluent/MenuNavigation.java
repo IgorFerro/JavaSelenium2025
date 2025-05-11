@@ -10,7 +10,7 @@ public class MenuNavigation {
 
     private final WebDriver     driver;
     private final WebDriverWait wait;
-    private final Actions       actions;
+    private final Actions actions;
 
     public MenuNavigation(WebDriver driver) {
         this.driver  = driver;
